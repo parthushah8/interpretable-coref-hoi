@@ -73,6 +73,7 @@ class Runner:
         stored_info = self.data.get_stored_info()
 
         # Set up optimizer and scheduler
+        logger.info('!!!Examples_train: %d'%len(examples_train))
         total_update_steps = len(examples_train) * epochs // grad_accum
         optimizers = self.get_optimizer(model)
         schedulers = self.get_scheduler(optimizers, total_update_steps)
@@ -271,7 +272,7 @@ class Runner:
         # return LambdaLR(optimizer, [lr_lambda_bert, lr_lambda_bert, lr_lambda_task, lr_lambda_task])
 
     def save_model_checkpoint(self, model, step):
-        if step < 30000:
+        if step < 3000:
             return  # Debug
         path_ckpt = join(self.config['log_dir'], f'model_{self.name_suffix}_{step}.bin')
         torch.save(model.state_dict(), path_ckpt)
